@@ -23,11 +23,17 @@ public class LiteController {
      * @return lite.jsp
      */
     @RequestMapping(value = "/")
-    public String lite(Model model) throws InterruptedException {
+    public String lite(Model model) {
+        //初始化数据
+        String result = "";
+        ListNode l1 = LiteUtil.buildListNode(new int[]{2, 4, 3});
+        ListNode l2 = LiteUtil.buildListNode(new int[]{5, 6, 4});
+
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        String result = threadSleep();
+        result = LiteUtil.listNodeToString(addTwoNumbers(l1, l2));
+
 
         final long eTime = System.nanoTime();
         model.addAttribute("Title", "JAVA Debug - Lite");
@@ -38,11 +44,11 @@ public class LiteController {
 
     /**
      * 休眠 1s
+     *
      * @throws InterruptedException sleep
      */
-    private static String threadSleep() throws InterruptedException {
+    private static void threadSleep() throws InterruptedException {
         Thread.sleep(1000);
-        return null;
     }
 
     /**
@@ -138,5 +144,32 @@ public class LiteController {
                 if (m == n)
                     ++c;
         return c + "";
+    }
+
+    /**
+     * 2. 两数相加
+     */
+    private ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+//        输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+//        输出：7 -> 0 -> 8
+//        原因：342 + 465 = 807
+
+        ListNode temp1 = l1, temp2 = l2, listNode = new ListNode(0), temp = listNode;
+        int sum = 0;
+        while (temp1 != null || temp2 != null) {
+            sum /= 10;
+            if (temp1 != null) {
+                sum += temp1.val;
+                temp1 = temp1.next;
+            }
+            if (temp2 != null) {
+                sum += temp2.val;
+                temp2 = temp2.next;
+            }
+            temp.next = new ListNode(sum % 10);
+            temp = temp.next;
+        }
+        if (sum > 9) temp.next = new ListNode(1);
+        return listNode.next;
     }
 }
