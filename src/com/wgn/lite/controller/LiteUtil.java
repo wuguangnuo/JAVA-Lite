@@ -71,4 +71,20 @@ class LiteUtil {
         }
         return merge + "]";
     }
+
+    /**
+     * 辗转相除法 最大公约数
+     *
+     * @param a int
+     * @param b int
+     * @return 最大公约数
+     */
+    static int gcd(int a, int b) {
+        while (b > 0) {
+            int c = a;
+            a = b;
+            b = c % b;
+        }
+        return a;
+    }
 }

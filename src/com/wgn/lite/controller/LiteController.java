@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 轻量级,简单化
@@ -26,13 +23,12 @@ public class LiteController {
     public String lite(Model model) {
         //初始化数据
         String result = "";
-        ListNode l1 = LiteUtil.buildListNode(new int[]{2, 4, 3});
-        ListNode l2 = LiteUtil.buildListNode(new int[]{5, 6, 4});
+        int[] deck = new int[]{1, 1, 1, 2, 2, 2, 3, 3};
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        result = LiteUtil.listNodeToString(addTwoNumbers(l1, l2));
+        result = hasGroupsSizeX(deck) ? "true" : "false";
 
 
         final long eTime = System.nanoTime();
@@ -171,5 +167,20 @@ public class LiteController {
         }
         if (sum > 9) temp.next = new ListNode(1);
         return listNode.next;
+    }
+
+    /**
+     * 914. 卡牌分组
+     */
+    private boolean hasGroupsSizeX(int[] deck) {
+        int[] f = new int[10001];
+        int g = 0;
+        for (int d : deck) {
+            ++f[d];
+        }
+        for (int v : f) {
+            g = LiteUtil.gcd(g, v);
+        }
+        return g != 1;
     }
 }
