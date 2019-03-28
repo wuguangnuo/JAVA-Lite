@@ -1,5 +1,7 @@
 package com.wgn.lite.controller;
 
+import java.util.List;
+
 /**
  * Util 合集
  */
@@ -57,18 +59,39 @@ class LiteUtil {
     }
 
     /**
-     * 链表 转 字符串
+     * 打印链表
      *
      * @param listNode listNode
      * @return String
      */
-    static String listNodeToString(ListNode listNode) {
+    static String printListNode(ListNode listNode) {
         if (listNode == null) return "[]";
         StringBuilder merge = new StringBuilder("[" + listNode.val);
         while (listNode.next != null) {
             listNode = listNode.next;
             merge.append(", ").append(listNode.val);
         }
+        return merge + "]";
+    }
+
+    /**
+     * 打印矩阵
+     *
+     * @param matrix 矩阵
+     * @return String
+     */
+    static String printMatrix(List<List<Integer>> matrix) {
+        if (matrix.size() == 0) return "[]";
+        StringBuilder merge = new StringBuilder("[");
+        for (List<Integer> row : matrix) {
+            merge.append("[");
+            for (Integer n : row) {
+                merge.append(n).append(", ");
+            }
+            merge = new StringBuilder(merge.substring(0, merge.length() - 2));
+            merge.append("], ");
+        }
+        merge = new StringBuilder(merge.substring(0, merge.length() - 2));
         return merge + "]";
     }
 

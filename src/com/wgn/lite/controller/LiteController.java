@@ -143,6 +143,31 @@ public class LiteController {
     }
 
     /**
+     * 1015. 至少有 1 位重复的数字
+     */
+    private int numDupDigitsAtMostN(int N) {
+//    给定正整数 N，返回小于等于 N 且具有至少 1 位重复数字的正整数。
+//    输入：1000
+//    输出：262
+        n = N;
+
+        return n + 1 - numDupDigitsAtMostNHelp(0, 0);
+    }
+
+    private static int n;
+
+    private static int numDupDigitsAtMostNHelp(int mask, int num) {
+        if (num > n) return 0;
+        int ret = 1;
+        for (int nd = num == 0 ? 1 : 0; nd < 10; nd++) {
+            if (((mask >> nd) & 1) == 0) {
+                ret += numDupDigitsAtMostNHelp(mask | (1 << nd), num * 10 + nd);
+            }
+        }
+        return ret;
+    }
+
+    /**
      * 2. 两数相加
      */
     private ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -167,6 +192,47 @@ public class LiteController {
         }
         if (sum > 9) temp.next = new ListNode(1);
         return listNode.next;
+    }
+
+    /**
+     * 46.全排列
+     *
+     * @param nums
+     * @return
+     */
+    private List<List<Integer>> permute(int[] nums) {
+//        输入: [1,2,3]
+//        输出: [[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]]
+
+        len = nums.length;
+        ans = new LinkedList<>();
+        sonSolve(nums, 0);
+        return ans;
+    }
+
+    private List<List<Integer>> ans = new LinkedList<>();
+    private int len = 0;
+
+    private void swap(int[] number, int a, int b) {
+        int temp = number[a];
+        number[a] = number[b];
+        number[b] = temp;
+    }
+
+    private void sonSolve(int[] nums, int N) {
+        if (N == len) {
+            List<Integer> temp = new LinkedList<>();
+            for (int i = 0; i < len; i++) {
+                temp.add(nums[i]);
+            }
+            ans.add(temp);
+            return;
+        }
+        for (int i = N; i < len; i++) {
+            swap(nums, N, i);
+            sonSolve(nums, N + 1);
+            swap(nums, N, i);
+        }
     }
 
     /**
