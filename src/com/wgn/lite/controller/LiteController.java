@@ -25,18 +25,18 @@ public class LiteController {
     public String lite(Model model) {
         //初始化数据
         String result;
-        ListNode data;
-        ListNode head = buildListNode(new int[]{1, 2, 3, 4, 5});
+        int[] data;
+        int[] A = new int[]{-4, -1, 0, 3, 10};
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        data = reverseList(head);
+        data = sortedSquares(A);
 
         final long eTime = System.nanoTime();
 
         // 调整数据
-        result = printListNode(data);
+        result = data.toString();
 
         model.addAttribute("Title", "JAVA Debug - Lite");
         model.addAttribute("NanoTime", new DecimalFormat(",###").format(new BigDecimal(eTime - sTime)));
@@ -288,5 +288,19 @@ public class LiteController {
         }
         // 返回反转后的链表 也就是pre 其实就是cur
         return pre;
+    }
+
+    /**
+     * 977. 有序数组的平方
+     */
+    public int[] sortedSquares(int[] A) {
+//        输入：[-4,-1,0,3,10]
+//        输出：[0,1,9,16,100]
+        int[] res = new int[A.length];
+        for (int i = 0; i < A.length; ++i) {
+            res[i] = A[i] * A[i];
+        }
+        Arrays.sort(res);
+        return res;
     }
 }
