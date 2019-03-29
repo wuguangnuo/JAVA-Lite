@@ -25,18 +25,19 @@ public class LiteController {
     public String lite(Model model) {
         //初始化数据
         String result;
-        int[] data;
-        int[] A = new int[]{-4, -1, 0, 3, 10};
+        TreeNode data;
+        TreeNode t1 = null;
+        TreeNode t2 = null;
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        data = sortedSquares(A);
+        data = mergeTrees(t1, t2);
 
         final long eTime = System.nanoTime();
 
         // 调整数据
-        result = data.toString();
+        result = data + "";
 
         model.addAttribute("Title", "JAVA Debug - Lite");
         model.addAttribute("NanoTime", new DecimalFormat(",###").format(new BigDecimal(eTime - sTime)));
@@ -293,7 +294,7 @@ public class LiteController {
     /**
      * 977. 有序数组的平方
      */
-    public int[] sortedSquares(int[] A) {
+    private int[] sortedSquares(int[] A) {
 //        输入：[-4,-1,0,3,10]
 //        输出：[0,1,9,16,100]
         int[] res = new int[A.length];
@@ -302,5 +303,39 @@ public class LiteController {
         }
         Arrays.sort(res);
         return res;
+    }
+
+    /**
+     * 978. 最长湍流子数组
+     */
+    private int maxTurbulenceSize(int[] A) {
+//        输入：[9,4,2,10,7,8,8,1,9]
+//        输出：5
+        return 0;
+    }
+
+    /**
+     * 617. 合并二叉树
+     */
+    private TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+//        输入: [1,3,2,5]
+//             [2,1,3,null,4,null,7]
+//        输出: [3,4,5,5,4,null,7]
+        return mergeChild(t1, t2);
+    }
+
+    private TreeNode mergeChild(TreeNode t1, TreeNode t2) {
+        if (t1 != null && t2 != null) {
+            t1.val = t1.val + t2.val;
+            t1.left = mergeChild(t1.left, t2.left);
+            t1.right = mergeChild(t1.right, t2.right);
+            return t1;
+        } else if (t1 != null) {
+            return t1;
+        } else if (t2 != null) {
+            return t2;
+        } else {
+            return null;
+        }
     }
 }
