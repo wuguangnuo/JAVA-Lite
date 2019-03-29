@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import static com.wgn.lite.controller.LiteUtil.*;
+
 /**
  * 轻量级,简单化
  */
@@ -22,16 +24,20 @@ public class LiteController {
     @RequestMapping(value = "/")
     public String lite(Model model) {
         //初始化数据
-        String result = "";
-        int[] deck = new int[]{1, 1, 1, 2, 2, 2, 3, 3};
+        String result;
+        ListNode data;
+        ListNode head = buildListNode(new int[]{1, 2, 3, 4, 5});
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        result = hasGroupsSizeX(deck) ? "true" : "false";
-
+        data = reverseList(head);
 
         final long eTime = System.nanoTime();
+
+        // 调整数据
+        result = printListNode(data);
+
         model.addAttribute("Title", "JAVA Debug - Lite");
         model.addAttribute("NanoTime", new DecimalFormat(",###").format(new BigDecimal(eTime - sTime)));
         model.addAttribute("Result", result);
@@ -245,8 +251,42 @@ public class LiteController {
             ++f[d];
         }
         for (int v : f) {
-            g = LiteUtil.gcd(g, v);
+            g = gcd(g, v);
         }
         return g != 1;
+    }
+
+    /**
+     * 136. 只出现一次的数字
+     */
+    private int singleNumber(int[] nums) {
+//        输入: [4,1,2,1,2]
+//        输出: 4
+        int res = 0;
+        for (int num : nums)
+            res ^= num;
+        return res;
+    }
+
+    /**
+     * 206. 反转链表
+     */
+    private ListNode reverseList(ListNode head) {
+//        输入: 1->2->3->4->5->NULL
+//        输出: 5->4->3->2->1->NULL
+        ListNode pre = null, cur = head, next = null;
+
+        while (cur != null) {
+            // 拿到原来链表head的下一个节点
+            next = cur.next;
+            // 把当前链表的下一个节点指向上一个节点也就是pre
+            cur.next = pre;
+            // 重置pre为当前链表节点
+            pre = cur;
+            // 重置当前节点
+            cur = next;
+        }
+        // 返回反转后的链表 也就是pre 其实就是cur
+        return pre;
     }
 }

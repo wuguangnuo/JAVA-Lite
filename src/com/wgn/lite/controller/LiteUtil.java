@@ -65,13 +65,13 @@ class LiteUtil {
      * @return String
      */
     static String printListNode(ListNode listNode) {
-        if (listNode == null) return "[]";
-        StringBuilder merge = new StringBuilder("[" + listNode.val);
+        if (listNode == null) return "NULL";
+        StringBuilder merge = new StringBuilder("" + listNode.val);
         while (listNode.next != null) {
             listNode = listNode.next;
-            merge.append(", ").append(listNode.val);
+            merge.append("->").append(listNode.val);
         }
-        return merge + "]";
+        return merge + "->NULL";
     }
 
     /**
