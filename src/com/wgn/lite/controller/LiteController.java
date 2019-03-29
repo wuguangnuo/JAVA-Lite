@@ -25,18 +25,18 @@ public class LiteController {
     public String lite(Model model) {
         //初始化数据
         String result;
-        ListNode data;
-        ListNode head = buildListNode(new int[]{1, 2, 3, 4, 5});
+        TreeNode root = buildTreeNode(new Integer[]{3, 9, 20, null, null, 15, 7}, 0);
+        int data;
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        data = reverseList(head);
+        data = maxDepth(root);
 
         final long eTime = System.nanoTime();
 
         // 调整数据
-        result = printListNode(data);
+        result = data + "";
 
         model.addAttribute("Title", "JAVA Debug - Lite");
         model.addAttribute("NanoTime", new DecimalFormat(",###").format(new BigDecimal(eTime - sTime)));
@@ -288,5 +288,12 @@ public class LiteController {
         }
         // 返回反转后的链表 也就是pre 其实就是cur
         return pre;
+    }
+
+    /**
+     * 104. 二叉树的最大深度
+     */
+    private int maxDepth(TreeNode root) {
+        return root == null ? 0 : Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 }
