@@ -276,6 +276,7 @@ public class LiteController {
 //        输出: 5->4->3->2->1->NULL
         ListNode pre = null, cur = head, next = null;
 
+        // 迭代
         while (cur != null) {
             // 拿到原来链表head的下一个节点
             next = cur.next;
@@ -295,5 +296,58 @@ public class LiteController {
      */
     private int maxDepth(TreeNode root) {
         return root == null ? 0 : Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    /**
+     * 868. 二进制间距
+     */
+    private int binaryGap(int N) {
+//        输入：22
+//        输出：2
+        int max = 0, length = -1;
+        while (N != 0) {
+            if (N % 2 == 0) {
+                if (length != -1)
+                    length++;
+            } else {
+                if (length == -1) {
+                    length = 0;
+                } else {
+                    max = Math.max(max, length + 1);
+                    length = 0;
+                }
+            }
+            N = N / 2;
+        }
+        return max;
+    }
+
+    /***
+     * 869. 重新排序得到 2 的幂
+     */
+    private boolean reorderedPowerOf2(int N) {
+        String num = N + "";
+        int len = num.length(), m, n;
+        if (len % 3 == 0) {
+            m = (len / 3) * 10 - 3;
+            n = 3;
+        } else if (len % 3 == 1) {
+            m = (len / 3) * 10;
+            n = 4;
+        } else {
+            m = (len / 3) * 10 + 4;
+            n = 3;
+        }
+        String[] pows = new String[n];
+        for (int i = 0; i < n; i++) {
+            pows[i] = (int) Math.pow(2, m + i) + "";
+            char[] powlist = pows[i].toCharArray();
+            Arrays.sort(powlist);
+            char[] numlist = num.toCharArray();
+            Arrays.sort(numlist);
+            if (Arrays.equals(powlist, numlist))
+                return true;
+        }
+        return false;
     }
 }
