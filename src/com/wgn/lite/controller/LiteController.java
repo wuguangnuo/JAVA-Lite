@@ -511,4 +511,26 @@ public class LiteController {
         }
         return pre.next;
     }
+
+    /**
+     * 14. 最长公共前缀
+     */
+    private String longestCommonPrefix(String[] strs) {
+//        输入: ["flower","flow","flight"]
+//        输出: "fl"
+
+        if (strs.length == 0) return "";
+        if (strs.length == 1) return strs[0];
+        String result = "";
+        int m = 0;
+        while (true) {
+            if (strs[0].length() <= m) return result;
+            char c = strs[0].charAt(m);
+            for (int i = 1; i < strs.length; ++i) {
+                if (strs[i].length() <= m || strs[i].charAt(m) != c) return result;
+            }
+            ++m;
+            result = strs[0].substring(0, m);
+        }
+    }
 }
