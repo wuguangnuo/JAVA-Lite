@@ -415,4 +415,21 @@ public class LiteController {
         }
         return 0;
     }
+
+    /**
+     * 700. 二叉搜索树中的搜索
+     */
+    private TreeNode searchBST(TreeNode root, int val) {
+//        输入: [4,2,7,1,3]
+//        输出: 2
+
+        if (root == null)
+            return root;
+        if (root.val == val)
+            return root;
+        else if (root.val > val)
+            return searchBST(root.left, val);
+        else
+            return searchBST(root.right, val);
+    }
 }
