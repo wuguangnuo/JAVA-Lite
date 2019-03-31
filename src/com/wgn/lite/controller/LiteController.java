@@ -432,4 +432,83 @@ public class LiteController {
         else
             return searchBST(root.right, val);
     }
+
+    /**
+     * 559. N叉树的最大深度
+     */
+    private int maxDepth(Node root) {
+//        输入：{"id":"1","children":[{"id":"2","children":[{"id":"5","children":[],"val":5},{"id":"6","children":[],"val":6}],"val":3},{"id":"3","children":[],"val":2},{"id":"4","children":[],"val":4}],"val":1}
+//        输出：3
+
+        if (root == null) return 0;
+        int max = 1;
+        for (int i = 0; i < root.children.size(); ++i) {
+            max = Math.max(max, 1 + maxDepth(root.children.get(i)));
+        }
+        return max;
+    }
+
+    /**
+     * 921. 使括号有效的最少添加
+     */
+    private int minAddToMakeValid(String S) {
+//        输入："()))(("
+//        输出：4
+
+        char[] arr = S.toCharArray();
+        int r = 0, l = 0;
+        for (char a : arr) {
+            if (a == '(') {
+                ++l;
+            } else {
+                --l;
+                if (l < 0) {
+                    l = 0;
+                    ++r;
+                }
+            }
+        }
+        return r + l;
+    }
+
+    /**
+     * 717. 1比特与2比特字符
+     */
+    private boolean isOneBitCharacter(int[] bits) {
+//        bits = [1, 1, 1, 0]
+//        输出: False
+
+        int i = 0;
+        for (; i < bits.length - 1; ++i) {
+            if (bits[i] == 1) ++i;
+        }
+        return i != bits.length;
+    }
+
+    /**
+     * 21. 合并两个有序链表
+     */
+    private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+//        输入：1->2->4, 1->3->4
+//        输出：1->1->2->3->4->4
+
+        ListNode p1 = l1, p2 = l2, pre = new ListNode(0), p = pre;
+        while (p1 != null || p2 != null) {
+            if (p1 == null) {
+                p.next = new ListNode(p2.val);
+                p2 = p2.next;
+            } else if (p2 == null) {
+                p.next = new ListNode(p1.val);
+                p1 = p1.next;
+            } else if (p1.val <= p2.val) {
+                p.next = new ListNode(p1.val);
+                p1 = p1.next;
+            } else {
+                p.next = new ListNode(p2.val);
+                p2 = p2.next;
+            }
+            p = p.next;
+        }
+        return pre.next;
+    }
 }
