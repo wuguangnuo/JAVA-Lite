@@ -25,13 +25,14 @@ public class LiteController {
     public String lite(Model model) {
         //初始化数据
         String result;
-        TreeNode root = buildTreeNode(new Integer[]{3, 9, 20, null, null, 15, 7}, 0);
-        int data;
+        int data = 0;
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        data = maxDepth(root);
+        data = fib(30);
+
+        prefixesDivBy5(new int[]{});
 
         final long eTime = System.nanoTime();
 
@@ -349,5 +350,69 @@ public class LiteController {
                 return true;
         }
         return false;
+    }
+
+    /***
+     * 509. 斐波那契数
+     */
+    private int fib(int N) {
+        if (N < 2) return N;
+        int[] m = new int[N + 1];
+        m[0] = 0;
+        m[1] = 1;
+        for (int i = 2; i <= N; i++) {
+            m[i] = m[i - 1] + m[i - 2];
+        }
+        return m[N];
+    }
+
+    /**
+     * 1029. 可被 5 整除的二进制前缀
+     */
+    private List<Boolean> prefixesDivBy5(int[] A) {
+//        输入：[0,1,1]
+//        输出：[true,false,false]
+
+        List<Boolean> answer = new LinkedList<>();
+        int tail = 0;
+        for (int i : A) {
+            if (i == 0) {
+                tail *= 2;
+            } else {
+                tail = tail * 2 + 1;
+            }
+            tail = tail > 9 ? tail - 10 : tail;
+            answer.add(tail == 5 || tail == 10);
+        }
+        return answer;
+    }
+
+    /**
+     * 1030. 链表中的下一个更大节点
+     */
+    private int[] nextLargerNodes(ListNode head) {
+//        输入：[1,7,5,1,9,2,5,1]
+//        输出：[7,9,9,9,0,5,0,0]
+
+        List<Integer> inp = new ArrayList<>();
+        inp.add(head.val);
+        while (head.next != null) {
+            head = head.next;
+            inp.add(head.val);
+        }
+        int l = inp.size();
+        int[] res = new int[l];
+        for (int i = 0; i < l; ++i) {
+            res[i] = getBigger(i, inp);
+        }
+        return res;
+    }
+
+    private int getBigger(int n, List<Integer> inp) {
+        int com = inp.get(n);
+        for (int i = n + 1; i < inp.size(); ++i) {
+            if (inp.get(i) > com) return inp.get(i);
+        }
+        return 0;
     }
 }
