@@ -25,19 +25,20 @@ public class LiteController {
     public String lite(Model model) {
         //初始化数据
         String result;
-        int data = 0;
+        boolean data = false;
+        int[] hand = new int[]{1, 2, 3, 6, 2, 3, 4, 7, 8};
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        data = fib(30);
+        data = isNStraightHand(hand, 3);
 
         prefixesDivBy5(new int[]{});
 
         final long eTime = System.nanoTime();
 
         // 调整数据
-        result = data + "";
+        result = data ? "true" : "false";
 
         model.addAttribute("Title", "JAVA Debug - Lite");
         model.addAttribute("NanoTime", new DecimalFormat(",###").format(new BigDecimal(eTime - sTime)));
@@ -580,5 +581,34 @@ public class LiteController {
             ++m;
             result = strs[0].substring(0, m);
         }
+    }
+
+    /**
+     * 846. 一手顺子
+     */
+    private boolean isNStraightHand(int[] hand, int W) {
+//        输入：hand = [1,2,3,6,2,3,4,7,8], W = 3
+//        输出：true
+
+        if (hand == null || hand.length == 0 || hand.length % W != 0) {
+            return false;
+        }
+        Arrays.sort(hand);
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i : hand) {
+            map.put(i, map.getOrDefault(i, 0) + 1);
+        }
+        for (int h : hand) {
+            if (map.get(h) > 0) {
+                for (int j = 0; j < W; ++j) {
+                    if (map.getOrDefault(h + j, 0) > 0) {
+                        map.put(h + j, map.get(h + j) - 1);
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
