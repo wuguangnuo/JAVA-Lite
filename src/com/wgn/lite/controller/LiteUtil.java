@@ -110,4 +110,30 @@ class LiteUtil {
         }
         return a;
     }
+
+    static String printTreeNode(TreeNode root) { // 先序遍历 中序遍历 后序遍历 层序遍历
+        return "";
+    }
+
+    /**
+     * 数组转二叉树
+     *
+     * @param array Integer[] 层序遍历
+     * @param index 0
+     * @return TreeNode
+     */
+    static TreeNode buildTreeNode(Integer[] array, int index) {
+        TreeNode tree = null;
+        if (index < array.length) {
+            Integer value = array[index];
+            if (value == null) {
+                return null;
+            }
+            tree = new TreeNode(value);
+            tree.left = buildTreeNode(array, 2 * index + 1);
+            tree.right = buildTreeNode(array, 2 * index + 2);
+            return tree;
+        }
+        return tree;
+    }
 }
