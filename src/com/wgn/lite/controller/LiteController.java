@@ -22,23 +22,21 @@ public class LiteController {
      * @return lite.jsp
      */
     @RequestMapping(value = "/")
-    public String lite(Model model) {
+    public String lite(Model model, String name) {
         //初始化数据
         String result;
-        boolean data = false;
-        int[] hand = new int[]{1, 2, 3, 6, 2, 3, 4, 7, 8};
+        int data;
+
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        data = isNStraightHand(hand, 3);
-
-        prefixesDivBy5(new int[]{});
+        data = maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});
 
         final long eTime = System.nanoTime();
 
         // 调整数据
-        result = data ? "true" : "false";
+        result = data + "" + name;
 
         model.addAttribute("Title", "JAVA Debug - Lite");
         model.addAttribute("NanoTime", new DecimalFormat(",###").format(new BigDecimal(eTime - sTime)));
@@ -646,5 +644,59 @@ public class LiteController {
             }
         }
         return -1;
+    }
+
+    /**
+     * 36. 有效的数独
+     */
+    private boolean isValidSudoku(char[][] board) {
+//        输入:
+//        [
+//          ["5","3",".",".","7",".",".",".","."],
+//          ["6",".",".","1","9","5",".",".","."],
+//          [".","9","8",".",".",".",".","6","."],
+//          ["8",".",".",".","6",".",".",".","3"],
+//          ["4",".",".","8",".","3",".",".","1"],
+//          ["7",".",".",".","2",".",".",".","6"],
+//          [".","6",".",".",".",".","2","8","."],
+//          [".",".",".","4","1","9",".",".","5"],
+//          [".",".",".",".","8",".",".","7","9"]
+//        ]
+//        输出: true
+
+        int[] rows = new int[9], cols = new int[9], blks = new int[9];
+        for (int ri = 0; ri < 9; ++ri) {
+            for (int ci = 0; ci < 9; ++ci) {
+                if (board[ri][ci] != '.') {
+                    int bi = ri / 3 * 3 + ci / 3;
+                    int uvb = 1 << (board[ri][ci] - '0');
+                    if ((uvb & (rows[ri] | cols[ci] | blks[bi])) != 0)
+                        return false;
+                    rows[ri] |= uvb;
+                    cols[ci] |= uvb;
+                    blks[bi] |= uvb;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 53. 最大子序和
+     */
+    private int maxSubArray(int[] nums) {
+//        输入: [-2,1,-3,4,-1,2,1,-5,4],
+//        输出: 6
+
+        int res = nums[0];
+        int sum = 0;
+        for (int num : nums) {
+            if (sum > 0)
+                sum += num;
+            else
+                sum = num;
+            res = Math.max(res, sum);
+        }
+        return res;
     }
 }
