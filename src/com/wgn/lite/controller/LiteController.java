@@ -755,4 +755,21 @@ public class LiteController {
 
         return n > 0 && (n & (n - 1)) == 0;
     }
+
+    /**
+     * 122. 买卖股票的最佳时机 II
+     */
+    private int maxProfit2(int[] prices) {
+//        输入: [7,1,5,3,6,4]
+//        输出: 7
+
+        if (prices.length <= 1) return 0;
+        int count = 0;
+        for (int i = 1; i < prices.length; ++i) {
+            int dis = prices[i] - prices[i - 1];
+            if (dis > 0)
+                count += dis;
+        }
+        return count;
+    }
 }
