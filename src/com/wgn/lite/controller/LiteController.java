@@ -699,4 +699,33 @@ public class LiteController {
         }
         return res;
     }
+
+    /**
+     * 169. 求众数
+     */
+    public int majorityElement(int[] nums) {
+//        输入: [2,2,1,1,1,2,2]
+//        输出: 2
+
+        int cnt = 0, ret = 0;
+        for (int num : nums) {
+            if (cnt == 0) ret = num;
+            if (ret != num) --cnt;
+            else ++cnt;
+        }
+        return ret;
+    }
+
+    /**
+     * 121. 买卖股票的最佳时机
+     */
+    private int maxProfit(int[] prices) {
+        int max = 0, realmax = 0;
+        for (int i = 1; i < prices.length; ++i) {
+            max += prices[i] - prices[i - 1];
+            if (max < 0) max = 0;
+            if (max > realmax) realmax = max;
+        }
+        return realmax;
+    }
 }
