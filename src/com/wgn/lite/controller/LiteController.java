@@ -728,4 +728,31 @@ public class LiteController {
         }
         return realmax;
     }
+
+    /**
+     * 70. 爬楼梯
+     */
+    private int climbStairs(int n) {
+//        输入： 3
+//        输出： 3
+
+        if (n <= 3) return n;
+        int[] m = new int[n + 1];
+        m[2] = 2;
+        m[3] = 3;
+        for (int i = 4; i <= n; i++) {
+            m[i] = m[i - 1] + m[i - 2];
+        }
+        return m[n];
+    }
+
+    /**
+     * 231. 2的幂
+     */
+    private boolean isPowerOfTwo(int n) {
+//        输入: 16
+//        输出: true
+
+        return n > 0 && (n & (n - 1)) == 0;
+    }
 }
