@@ -75,6 +75,22 @@ class LiteUtil {
     }
 
     /**
+     * 打印数组
+     *
+     * @param list List<Integer>
+     * @return String
+     */
+    static String printList(List<Integer> list) {
+        if (list.size() == 0) return "[]";
+        StringBuilder merge = new StringBuilder("[");
+        for (Integer n : list) {
+            merge.append(n).append(", ");
+        }
+        merge = new StringBuilder(merge.substring(0, merge.length() - 2));
+        return merge + "]";
+    }
+
+    /**
      * 打印矩阵
      *
      * @param matrix 矩阵

@@ -25,18 +25,18 @@ public class LiteController {
     public String lite(Model model, String name) {
         //初始化数据
         String result;
-        int data;
-
+        List<Integer> data = null;
+        int[][] matrix = {{6,9,7}};
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        data = maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});
+        data = spiralOrder(matrix);
 
         final long eTime = System.nanoTime();
 
         // 调整数据
-        result = data + "" + name;
+        result = printList(data);
 
         model.addAttribute("Title", "JAVA Debug - Lite");
         model.addAttribute("NanoTime", new DecimalFormat(",###").format(new BigDecimal(eTime - sTime)));
@@ -771,5 +771,46 @@ public class LiteController {
                 count += dis;
         }
         return count;
+    }
+
+    /**
+     * 54. 螺旋矩阵
+     */
+    private List<Integer> spiralOrder(int[][] matrix) {
+//        输入:
+//        [
+//          [1, 2, 3, 4],
+//          [5, 6, 7, 8],
+//          [9,10,11,12]
+//        ]
+//        输出: [1,2,3,4,8,12,11,10,9,5,6,7]
+
+        List<Integer> res = new LinkedList<>();
+        int x = matrix.length;
+        if (x == 0) {
+            res.add(0);
+            return res;
+        }
+        int y = matrix[0].length;
+        int m = 0;
+        while (m < Math.ceil(new Double(Math.min(x, y)) / 2)) {
+            for (int j = 0 + m; j < y - m - 1; ++j) {
+                res.add(matrix[m][j]);
+            }
+            for (int i = 0 + m; i < x - m - 1; ++i) {
+                res.add(matrix[i][y - m - 1]);
+            }
+            for (int j = y - 1 - m; j > 0 + m; --j) {
+                res.add(matrix[x - m - 1][j]);
+            }
+            for (int i = x - m - 1; i > 0 + m; --i) {
+                res.add(matrix[i][0 + m]);
+            }
+            ++m;
+        }
+        if (res.size() != x * y) {
+            res.add(matrix[x / 2][y / 2]);
+        }
+        return res;
     }
 }
