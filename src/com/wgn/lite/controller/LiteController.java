@@ -25,18 +25,19 @@ public class LiteController {
     public String lite(Model model, String name) {
         //初始化数据
         String result;
-        List<Integer> data = null;
-        int[][] matrix = {{6,9,7}};
+        int[][] clips = {{0, 2}, {4, 6}, {8, 10}, {1, 9}, {1, 5}, {5, 9}};
+        int T = 10;
+        int data;
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        data = spiralOrder(matrix);
+        data = videoStitching(clips, T);
 
         final long eTime = System.nanoTime();
 
         // 调整数据
-        result = printList(data);
+        result = data + "";
 
         model.addAttribute("Title", "JAVA Debug - Lite");
         model.addAttribute("NanoTime", new DecimalFormat(",###").format(new BigDecimal(eTime - sTime)));
@@ -812,5 +813,110 @@ public class LiteController {
             res.add(matrix[x / 2][y / 2]);
         }
         return res;
+    }
+
+    /**
+     * 5016. 删除最外层的括号
+     */
+    public String removeOuterParentheses(String S) {
+//        输入："(()())(())(()(()))"
+//        输出："()()()()(())"
+
+        int n = 0;
+        List<String> list = new LinkedList<>();
+        String pack = "";
+
+        for (char i : S.toCharArray()) {
+            pack += i;
+            if (i == '(') ++n;
+            else --n;
+            if (n == 0) {
+                list.add(pack);
+                pack = "";
+            }
+        }
+        String res = "";
+        for (String j : list) {
+            res += j.substring(1, j.length() - 1);
+        }
+        return res;
+    }
+
+    /**
+     * 5017. 从根到叶的二进制数之和
+     */
+    public int sumRootToLeaf(TreeNode root) {
+//        输入：[1,0,1,0,1,0,1]
+//        输出：22
+
+        if (root == null) return 0;
+        sumRootToLeafHelper(root, 0);
+        return sumRootToLeafRes;
+    }
+
+    private int sumRootToLeafRes = 0;
+
+    private void sumRootToLeafHelper(TreeNode r, int v) {
+        int cur = v * 2 + r.val;
+        cur %= 1000000007;
+        if (r.left == null && r.right == null) {
+            sumRootToLeafRes += cur;
+            sumRootToLeafRes %= 1000000007;
+            return;
+        }
+        if (r.left != null)
+            sumRootToLeafHelper(r.left, cur);
+        if (r.right != null)
+            sumRootToLeafHelper(r.right, cur);
+    }
+
+    /**
+     * 5018. 驼峰式匹配
+     */
+    public List<Boolean> camelMatch(String[] queries, String pattern) {
+//        输入：queries = ["FooBar","FooBarTest","FootBall","FrameBuffer","ForceFeedBack"], pattern = "FoBa"
+//        输出：[true,false,true,false,false]
+
+//        JavaScript Code
+//        const camelMatch = (queries, pattern) => {
+//            let res = []
+//            for (let q of queries)
+//                res.push(helper(q, pattern))
+//            return res
+//        }, helper = (qs, ps) => {
+//            let qa = qs.split(""), pa = ps.split("")
+//            for (let q of qa) {
+//                if (q <= "Z")
+//                    if (q != pa.shift()) return false
+//                else
+//                    if (q == pa[0]) pa.shift()
+//            }
+//            return pa.length == 0
+//        }
+        return null;
+    }
+
+    /**
+     * 5019. 视频拼接
+     */
+    private int videoStitching(int[][] clips, int T) {
+//        输入：clips = [[0,2],[4,6],[8,10],[1,9],[1,5],[5,9]], T = 10
+//        输出：3
+
+        int res = 0, e = 0, tmp;
+        while (e < T) {
+            tmp = e;
+            e = getLongest(e, clips);
+            if (tmp == e) return -1;
+            ++res;
+        }
+        return res;
+    }
+
+    private int getLongest(int s, int[][] clips) {
+        int max = 0;
+        for (int[] c : clips)
+            if (c[0] <= s && c[1] >= s) max = Math.max(max, c[1]);
+        return max;
     }
 }
