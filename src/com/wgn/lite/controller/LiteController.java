@@ -25,19 +25,19 @@ public class LiteController {
     public String lite(Model model, String name) {
         //初始化数据
         String result;
-        int[][] clips = {{0, 2}, {4, 6}, {8, 10}, {1, 9}, {1, 5}, {5, 9}};
-        int T = 10;
+        int[] nums = {1, 2, 3, 4, 5, 6, 7};
+        int k = 3;
         int data;
 
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        data = videoStitching(clips, T);
+        rotate(nums, k);
 
         final long eTime = System.nanoTime();
 
         // 调整数据
-        result = data + "";
+        result = "";
 
         model.addAttribute("Title", "JAVA Debug - Lite");
         model.addAttribute("NanoTime", new DecimalFormat(",###").format(new BigDecimal(eTime - sTime)));
@@ -881,15 +881,16 @@ public class LiteController {
 //        const camelMatch = (queries, pattern) => {
 //            let res = []
 //            for (let q of queries)
-//                res.push(helper(q, pattern))
+//            res.push(helper(q, pattern))
 //            return res
 //        }, helper = (qs, ps) => {
 //            let qa = qs.split(""), pa = ps.split("")
 //            for (let q of qa) {
-//                if (q <= "Z")
+//                if (q <= "Z") {
 //                    if (q != pa.shift()) return false
-//                else
+//                } else {
 //                    if (q == pa[0]) pa.shift()
+//                }
 //            }
 //            return pa.length == 0
 //        }
@@ -918,5 +919,43 @@ public class LiteController {
         for (int[] c : clips)
             if (c[0] <= s && c[1] >= s) max = Math.max(max, c[1]);
         return max;
+    }
+
+    /**
+     * 26. 删除排序数组中的重复项
+     */
+    public int removeDuplicates(int[] nums) {
+//        输入: [0,0,1,1,1,2,2,3,3,4],
+//        输出: [0,1,2,3,4]
+
+        int x = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[x] != nums[i]) {
+                nums[++x] = nums[i];
+            }
+        }
+        return x + 1;
+    }
+
+    /**
+     * 189. 旋转数组
+     */
+    public void rotate(int[] nums, int k) {
+//        输入: [1,2,3,4,5,6,7] 和 k = 3
+//        输出: [5,6,7,1,2,3,4]
+
+        int n = nums.length;
+        k %= n;
+        reverse(nums, 0, n - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, n - 1);
+    }
+
+    private void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start++] = nums[end];
+            nums[end--] = temp;
+        }
     }
 }
