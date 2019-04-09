@@ -958,4 +958,56 @@ public class LiteController {
             nums[end--] = temp;
         }
     }
+
+    /**
+     * 883. 三维形体投影面积
+     */
+    public int projectionArea(int[][] grid) {
+//        输入：[[1,2],[3,4]]
+//        输出：17
+
+        int xy = 0, xz = 0, yz = 0;
+        for (int i = 0; i < grid.length; ++i) {
+            int max1 = 0, max2 = 0;
+            for (int j = 0; j < grid[i].length; ++j) {
+                if (grid[i][j] != 0) ++xy;
+                max1 = Math.max(max1, grid[i][j]);
+                max2 = Math.max(max2, grid[j][i]);
+            }
+            xz += max1;
+            yz += max2;
+        }
+        return xy + xz + yz;
+    }
+
+    /**
+     * 859. 亲密字符串
+     */
+    public boolean buddyStrings(String A, String B) {
+//        输入： A = "aaaaaaabc", B = "aaaaaaacb"
+//        输出： true
+
+        if (A.length() != B.length() || A.length() < 2) return false;
+        char[] a = A.toCharArray(), b = B.toCharArray();
+        if (A.equals(B)) {
+            for (int i = 0; i < a.length - 1; ++i) {
+                for (int j = i + 1; j < a.length; ++j) {
+                    if (a[i] == a[j]) return true;
+                }
+            }
+        }
+        int n = 0;
+        String tmp = "";
+        for (int i = 0; i < a.length; ++i) {
+            if (a[i] != b[i]) {
+                if (n > 1) return false;
+                if (n == 0) tmp = a[i] + "" + b[i];
+                if (n == 1) {
+                    if (!tmp.equals(b[i] + "" + a[i])) return false;
+                }
+                ++n;
+            }
+        }
+        return n == 2;
+    }
 }
