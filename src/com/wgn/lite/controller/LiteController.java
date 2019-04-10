@@ -1010,4 +1010,13 @@ public class LiteController {
         }
         return n == 2;
     }
+
+    /**
+     * 965. 单值二叉树
+     */
+    public boolean isUnivalTree(TreeNode root) {
+//        输入：[2,2,2,5,2]
+//        输出：false
+
+        return root == null || ((root.left == null || root.left.val == root.val) && (root.right == null || root.right.val == root.val)) && (isUnivalTree(root.left) && isUnivalTree(root.right));    }
 }
