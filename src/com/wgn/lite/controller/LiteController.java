@@ -35,7 +35,7 @@ public class LiteController {
         rotate(nums, k);
 
         final long eTime = System.nanoTime();
-
+        shortestToChar("loveleetcode", 'v');
         // 调整数据
         result = "";
 
@@ -1018,5 +1018,75 @@ public class LiteController {
 //        输入：[2,2,2,5,2]
 //        输出：false
 
-        return root == null || ((root.left == null || root.left.val == root.val) && (root.right == null || root.right.val == root.val)) && (isUnivalTree(root.left) && isUnivalTree(root.right));    }
+        return root == null || ((root.left == null || root.left.val == root.val) && (root.right == null || root.right.val == root.val)) && (isUnivalTree(root.left) && isUnivalTree(root.right));
+    }
+
+    /**
+     * 852. 山脉数组的峰顶索引
+     */
+    public int peakIndexInMountainArray(int[] A) {
+        for (int i = 2; i < A.length; ++i) {
+            if (A[i] < A[i - 1]) return i - 1;
+        }
+        return 0;
+    }
+
+    /**
+     * 判断奇数
+     */
+    public boolean isOdd(int n) {
+        return (n & 1) == 0;
+    }
+
+    /**
+     * 171. Excel表列序号
+     */
+    public int titleToNumber(String s) {
+//        输入: "AB"
+//        输出: 28
+
+        int res = 0;
+        for (int i = 0; i < s.length(); ++i)
+            res = res * 26 + s.charAt(i) - 64;
+        return res;
+    }
+
+    /**
+     * 821. 字符的最短距离
+     */
+    public int[] shortestToChar(String S, char C) {
+//        输入: S = "loveleetcode", C = 'e'
+//        输出: [3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0]
+
+        int[] res = new int[S.length()];
+        for (int i = 0; i < S.length(); ++i) {
+            res[i] = getShort(S, C, i);
+        }
+        return res;
+    }
+
+    private int getShort(String s, char c, int x) {
+        if (s.charAt(x) == c) return 0;
+        int l = 0, r = 0;
+        for (int i = x; i >= 0; --i) {
+            if (i == 0) {
+                l = 10000;
+                break;
+            }
+            if (i == x) continue;
+            ++l;
+            if (s.charAt(i) == c) break;
+
+        }
+        for (int i = x; i < s.length(); ++i) {
+            if (i == s.length() - 1) {
+                r = 10000;
+                break;
+            }
+            if (i == x) continue;
+            ++r;
+            if (s.charAt(i) == c) break;
+        }
+        return Math.min(l, r);
+    }
 }
