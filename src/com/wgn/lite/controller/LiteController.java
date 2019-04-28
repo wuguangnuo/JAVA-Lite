@@ -1,5 +1,6 @@
 package com.wgn.lite.controller;
 
+import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -1088,5 +1089,88 @@ public class LiteController {
             if (s.charAt(i) == c) break;
         }
         return Math.min(l, r);
+    }
+
+    /**
+     * 912. Sort an Array
+     */
+    public int[] sortArray(int[] nums) {
+        Arrays.sort(nums);
+        return nums;
+    }
+
+    /**
+     * 500. 键盘行
+     */
+    public String[] findWords(String[] words) {
+//        输入: ["Hello", "Alaska", "Dad", "Peace"]
+//        输出: ["Alaska", "Dad"]
+
+        HashMap<Character, Integer> map = new HashMap<>();
+        map.put('Q', 1);
+        map.put('W', 1);
+        map.put('E', 1);
+        map.put('R', 1);
+        map.put('T', 1);
+        map.put('Y', 1);
+        map.put('U', 1);
+        map.put('I', 1);
+        map.put('O', 1);
+        map.put('P', 1);
+
+        map.put('A', 2);
+        map.put('S', 2);
+        map.put('D', 2);
+        map.put('F', 2);
+        map.put('G', 2);
+        map.put('H', 2);
+        map.put('J', 2);
+        map.put('K', 2);
+        map.put('L', 2);
+
+        map.put('Z', 3);
+        map.put('X', 3);
+        map.put('C', 3);
+        map.put('V', 3);
+        map.put('B', 3);
+        map.put('N', 3);
+        map.put('M', 3);
+
+        List<String> res = new LinkedList<String>();
+        for (String word : words) {
+            boolean inline = true;
+            int line = 0;
+            for (int i = 0; i < word.length(); ++i) {
+                Character c = word.charAt(i);
+                if (line == 0) {
+                    line = map.get(Character.toUpperCase(c));
+                } else if (line != map.get(Character.toUpperCase(c))) {
+                    inline = false;
+                    break;
+                }
+            }
+            if (inline) {
+                res.add(word);
+            }
+        }
+        return res.toArray(new String[]{});
+    }
+
+    /**
+     * 5039. 移动石子直到连续
+     */
+    public int[] numMovesStones(int a, int b, int c) {
+//        输入：a = 1, b = 2, c = 5
+//        输出：[1, 2]
+
+        int[] arr = new int[]{a, b, c};
+        Arrays.sort(arr);
+        int min = 1;
+        if (arr[1] - arr[0] == 1 && arr[2] - arr[1] == 1) {
+            min = 0;
+        } else if (arr[1] - arr[0] > 2 && arr[2] - arr[1] > 2) {
+            min = 2;
+        }
+        return new int[]{min, arr[2] - arr[0] - 2};
     }
 }
