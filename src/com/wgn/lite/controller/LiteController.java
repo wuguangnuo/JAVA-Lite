@@ -33,10 +33,10 @@ public class LiteController {
         final long sTime = System.nanoTime();
 
         // 执行测试代码
-        rotate(nums, k);
+        getRow(5);
 
         final long eTime = System.nanoTime();
-        shortestToChar("loveleetcode", 'v');
+
         // 调整数据
         result = "";
 
@@ -1089,6 +1089,64 @@ public class LiteController {
             if (s.charAt(i) == c) break;
         }
         return Math.min(l, r);
+    }
+
+    /**
+     * 766. 托普利茨矩阵
+     */
+    public boolean isToeplitzMatrix(int[][] matrix) {
+//        输入: matrix = [
+//          [1,2,3,4],
+//          [5,1,2,3],
+//          [9,5,1,2]
+//        ]
+//        输出: True
+
+        if (matrix.length <= 1 || matrix[0].length <= 1) return true;
+        for (int i = 1; i < matrix.length; ++i) {
+            for (int j = 1; j < matrix[0].length; ++j) {
+                if (matrix[i][j] != matrix[i - 1][j - 1]) return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 118. 杨辉三角
+     */
+    public List<List<Integer>> generate(int numRows) {
+//        输入: 5
+//        输出: [[1],[1, 1],[1, 2, 1],[1, 3, 3, 1],[1, 4, 6, 4, 1]]
+
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> row = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    row.add(1);
+                } else {
+                    row.add(res.get(i - 1).get(j - 1) + res.get(i - 1).get(j));
+                }
+            }
+            res.add(row);
+        }
+        return res;
+    }
+
+    /**
+     * 119. 杨辉三角 II
+     */
+    public List<Integer> getRow(int rowIndex) {
+//        输入: 3
+//        输出: [1,3,3,1]
+
+        List<Integer> res = new LinkedList<>();
+        long nk = 1;
+        for (int i = 0; i <= rowIndex; i++) {
+            res.add((int) nk);
+            nk = nk * (rowIndex - i) / (i + 1);
+        }
+        return res;
     }
 
     /**
