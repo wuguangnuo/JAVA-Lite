@@ -1,5 +1,6 @@
 package com.wgn.lite.controller;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -1230,5 +1231,87 @@ public class LiteController {
             min = 2;
         }
         return new int[]{min, arr[2] - arr[0] - 2};
+    }
+
+    @Test
+    public void leecode() {
+        int result;
+        result = mySqrt(4);
+        System.out.println(result);
+    }
+
+    /**
+     * 35. 搜索插入位置
+     */
+    public int searchInsert(int[] nums, int target) {
+//        输入: [1,3,5,6], 5
+//        输出: 2
+
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] >= target) {
+                return i;
+            }
+        }
+        return nums.length;
+    }
+
+    /**
+     * 58. 最后一个单词的长度
+     */
+    public int lengthOfLastWord(String s) {
+//        输入: "Hello World"
+//        输出: 5
+
+        String[] strs = s.split(" ");
+        return strs.length == 0 ? 0 : strs[strs.length - 1].length();
+    }
+
+    /**
+     * 66. 加一
+     */
+    public int[] plusOne(int[] digits) {
+//        输入: [1,2,3]
+//        输出: [1,2,4]
+
+        for (int i = digits.length - 1; i >= 0; --i) {
+            ++digits[i];
+            digits[i] %= 10;
+            if (digits[i] != 0) {
+                return digits;
+            }
+        }
+        digits = new int[digits.length + 1];
+        digits[0] = 1;
+        return digits;
+    }
+
+    /**
+     * 69. x的平方根
+     */
+    public int mySqrt(int x) {
+//        i = 0x5f3759df - (i >> 1); // what the fuck?
+        return (int) Math.sqrt(x);
+    }
+
+    /**
+     * 88. 合并两个有序数组
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        for (int k = m + n - 1, i = m - 1, j = n - 1; k >= 0; k--) {
+            if (i < 0) {
+                nums1[k] = nums2[j--];
+                continue;
+            }
+            if (j < 0) {
+                nums1[k] = nums1[i--];
+                continue;
+            }
+
+            if (nums1[i] >= nums2[j]) {
+                nums1[k] = nums1[i--];
+            } else {
+                nums1[k] = nums2[j--];
+            }
+        }
     }
 }
