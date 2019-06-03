@@ -1236,7 +1236,7 @@ public class LiteController {
     @Test
     public void leecode() {
         int result;
-        result = mySqrt(4);
+        result = numUniqueEmails(new String[]{"test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com", "testemail+david@lee.tcode.com"});
         System.out.println(result);
     }
 
@@ -1313,5 +1313,32 @@ public class LiteController {
                 nums1[k] = nums2[j--];
             }
         }
+    }
+
+    /**
+     * 929. 独特的电子邮件地址
+     */
+    public int numUniqueEmails(String[] emails) {
+//        输入：["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]
+//        输出：2
+
+        Set<String> set = new HashSet<>();
+        for (String email : emails) {
+            int n = email.indexOf('@');
+            char[] chars = email.substring(0, n).toCharArray();
+            StringBuilder sb = new StringBuilder();
+            for (char c : chars) {
+                if (c == '+') {
+                    break;
+                } else if (c == '.') {
+                    continue;
+                } else {
+                    sb.append(c);
+                }
+            }
+            sb.append('@').append(email.substring(n));
+            set.add(sb.toString());
+        }
+        return set.size();
     }
 }
