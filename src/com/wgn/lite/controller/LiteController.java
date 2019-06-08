@@ -1,7 +1,6 @@
 package com.wgn.lite.controller;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.support.ManagedMap;
+import org.junit.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +9,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static com.wgn.lite.controller.LiteUtil.*;
+import static com.wgn.lite.controller.LiteUtil.gcd;
 
 /**
  * 轻量级,简单化
@@ -1235,9 +1234,9 @@ public class LiteController {
 
     @Test
     public void leecode() {
-        int result;
-        result = numUniqueEmails(new String[]{"test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com", "testemail+david@lee.tcode.com"});
-        System.out.println(result);
+        isIsomorphic("egg", "add");
+        isIsomorphic("foo", "bar");
+        isIsomorphic("paper", "title");
     }
 
     /**
@@ -1340,5 +1339,33 @@ public class LiteController {
             set.add(sb.toString());
         }
         return set.size();
+    }
+
+    /**
+     * 205. 同构字符串
+     */
+    public boolean isIsomorphic(String s, String t) {
+//        if (s.length() != t.length()) return false;
+//        Map<Character, Character> map = new HashMap<>();
+//
+//        for (int i = 0; i < s.length(); ++i) {
+//            char ss = s.charAt(i), tt = t.charAt(i);
+//            if (map.containsKey(ss)) {
+//                if (map.get(ss) != tt) return false;
+//            } else {
+//                if (map.containsValue(tt)) return false;
+//                map.put(ss, tt);
+//            }
+//        }
+//        return true;
+        char[] ss = s.toCharArray(), tt = t.toCharArray(), map = new char[256];
+        if (ss.length != tt.length) return false;
+        for (int i = ss.length - 1; i >= 0; --i) {
+            if (map[ss[i]] != map[tt[i] + 128]) {
+                return false;
+            }
+            map[ss[i]] = map[tt[i] + 128] = ss[i];
+        }
+        return true;
     }
 }
