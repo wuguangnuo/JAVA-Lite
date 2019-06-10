@@ -1544,4 +1544,42 @@ public class LiteController {
         //最终找到的是刚好满足的临界点
         return mid;
     }
+
+    @Test
+    public void m() {
+        System.out.println(manacher("abcdcbafabcdck"));
+    }
+
+    /**
+     * Manacher算法
+     */
+    public static int manacher(String str) {
+        if (str == null || str.length() < 1) {
+            return 0;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); ++i) {
+            sb.append("#").append(str.charAt(i));
+        }
+        char[] charArr = sb.append("#").toString().toCharArray();
+        int[] radius = new int[charArr.length];
+        int R = -1, c = -1, max = Integer.MIN_VALUE;
+        for (int i = 0; i < radius.length; ++i) {
+            radius[i] = R > i ? Math.min(radius[2 * c - i], R - i + 1) : 1;
+            while (i + radius[i] < charArr.length && i - radius[i] > -1) {
+                if (charArr[i - radius[i]] == charArr[i + radius[i]]) {
+                    ++radius[i];
+                } else {
+                    break;
+                }
+            }
+            if (i + radius[i] > R) {
+                R = i + radius[i] - 1;
+                c = i;
+            }
+            max = Math.max(max, radius[i]);
+        }
+        return max - 1;
+    }
 }
