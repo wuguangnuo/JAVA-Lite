@@ -1235,9 +1235,7 @@ public class LiteController {
 
     @Test
     public void leecode() {
-        int result;
-        result = numUniqueEmails(new String[]{"test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com", "testemail+david@lee.tcode.com"});
-        System.out.println(result);
+        singleNumber3(new int[]{1, 2, 1, 3, 2, 5});
     }
 
     /**
@@ -1340,5 +1338,93 @@ public class LiteController {
             set.add(sb.toString());
         }
         return set.size();
+    }
+
+    /**
+     * 260. 只出现一次的数字 III
+     */
+    public int[] singleNumber3(int[] nums) {
+//        输入: [1,2,1,3,2,5]
+//        输出: [3,5]
+
+        int xor = 0;
+        for (int num : nums) {
+            xor ^= num;
+        }
+        int mask = xor & (-xor);
+        int[] ans = new int[2];
+
+        for (int num : nums) {
+            if ((num & mask) == 0) {
+                ans[0] ^= num;
+            } else {
+                ans[1] ^= num;
+            }
+        }
+        return ans;
+    }
+
+    @Test
+    public void t() {
+        System.out.println(combine(4, 2).toString());
+    }
+
+    /**
+     * 77. 组合
+     */
+    public List<List<Integer>> combine(int n, int k) {
+//        输入: n = 4, k = 2
+//        输出:[[2,4], [3,4], [2,3], [1,2], [1,3], [1,4]]
+
+        // init first combination
+        LinkedList<Integer> nums = new LinkedList<Integer>();
+        for (int i = 1; i < k + 1; ++i) {
+            nums.add(i);
+        }
+        nums.add(n + 1);
+
+        List<List<Integer>> output = new ArrayList<List<Integer>>();
+        int j = 0;
+        while (j < k) {
+            // add current combination
+            output.add(new LinkedList(nums.subList(0, k)));
+            // increase first nums[j] by one
+            // if nums[j] + 1 != nums[j + 1]
+            j = 0;
+            while ((j < k) && (nums.get(j + 1) == nums.get(j) + 1)) {
+                nums.set(j, j++ + 1);
+            }
+            nums.set(j, nums.get(j) + 1);
+        }
+        return output;
+    }
+
+    /**
+     * PHP long2ip
+     *
+     * @param ipLong
+     * @return
+     */
+    public String long2ip(long ipLong) {
+        long ip1 = (ipLong >> 24) & 0xff;
+        long ip2 = (ipLong >> 16) & 0xff;
+        long ip3 = (ipLong >> 8) & 0xff;
+        long ip4 = ipLong & 0xff;
+        return ip1 + "." + ip2 + "." + ip3 + "." + ip4;
+    }
+
+    /**
+     * PHP ip2long
+     *
+     * @param ip
+     * @return
+     */
+    public long ip2long(String ip) {
+        long ipLong = 0L;
+        String[] numbers = ip.split("\\.");
+        for (int i = 0; i < 4; ++i) {
+            ipLong = ipLong << 8 | Integer.parseInt(numbers[i]);
+        }
+        return ipLong;
     }
 }
