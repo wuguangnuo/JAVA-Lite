@@ -1547,7 +1547,8 @@ public class LiteController {
 
     @Test
     public void m() {
-        System.out.println(manacher("abcdcbafabcdck"));
+        int[] x = new int[]{2, 0, 2, 1, 1, 0};
+        sortColors(x);
     }
 
     /**
@@ -1581,5 +1582,38 @@ public class LiteController {
             max = Math.max(max, radius[i]);
         }
         return max - 1;
+    }
+
+    /**
+     * 75. 颜色分类
+     */
+    public void sortColors(int[] nums) {
+//        输入: [2,0,2,1,1,0]
+//        输出: [0,0,1,1,2,2]
+
+        // 对于所有 idx < i : nums[idx < i] = 0
+        // j是当前考虑元素的下标
+        int p0 = 0, curr = 0;
+        // 对于所有 idx > k : nums[idx > k] = 2
+        int p2 = nums.length - 1;
+
+        int tmp;
+        while (curr <= p2) {
+            if (nums[curr] == 0) {
+                // 交换第 p0个和第curr个元素
+                // i++，j++
+                tmp = nums[p0];
+                nums[p0++] = nums[curr];
+                nums[curr++] = tmp;
+            } else if (nums[curr] == 2) {
+                // 交换第k个和第curr个元素
+                // p2--
+                tmp = nums[curr];
+                nums[curr] = nums[p2];
+                nums[p2--] = tmp;
+            } else {
+                curr++;
+            }
+        }
     }
 }
