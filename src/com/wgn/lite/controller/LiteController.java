@@ -1616,4 +1616,37 @@ public class LiteController {
             }
         }
     }
+
+    /**
+     * 395. 至少有K个重复字符的最长子串
+     */
+    @Test
+    public void longestSubstring() {
+        longestSubstring("aaabb", 3);
+    }
+
+    public int longestSubstring(String s, int k) {
+        if (k <= 1) return s.length();
+        char[] arr = s.toCharArray();
+        int[] mip;
+        int size = 0, len = arr.length;
+        for (int i = 0; i < len; ++i) {
+            mip = new int[26];
+            ++mip[arr[i] - 'a'];
+            for (int j = i + 1; j < len; ++j) {
+                ++mip[arr[j] - 'a'];
+                if (arrBigger(mip, k) && j - i + 1 > size) {
+                    size = j - i + 1;
+                }
+            }
+        }
+        return size;
+    }
+
+    private boolean arrBigger(int[] arr, int k) {
+        for (int c : arr) {
+            if (c > 0 && c < k) return false;
+        }
+        return true;
+    }
 }
