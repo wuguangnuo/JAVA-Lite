@@ -1616,4 +1616,77 @@ public class LiteController {
             }
         }
     }
+
+    @Test
+    public void l() {
+//        System.out.println(longestSubstring("ababacb", 3));
+        System.out.println(matrixScore(new int[][]{{0, 0, 1, 1}, {1, 0, 1, 0}, {1, 1, 0, 0}}));
+    }
+
+    public int longestSubstring(String s, int k) {
+        if (k < 2) return s.length();
+        return sub(s, k);
+    }
+
+    boolean flag;
+
+    public int sub(String s, int k) {
+        if (s.length() < k)
+            return 0;
+        char[] chars = s.toCharArray();
+        Map<Character, Integer> map = getMap(chars);
+        int temp = 0;
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < s.length(); ) {
+            if (map.get(chars[i]) >= k) {
+                int j = i;
+                for (; j < s.length(); j++) {
+                    if (map.get(chars[j]) < k)
+                        break;
+                }
+                if (j - i >= k && j - i > temp) {
+                    temp = j - i;
+                    start = i;
+                    end = j;
+                }
+                i = j;
+            } else {
+                i++;
+            }
+        }
+        if (temp == s.length() || temp == 0)
+            return temp;
+
+        int result = sub(s.substring(start, end), k);
+        if (flag || result == temp) {
+            flag = true;
+            return result;
+        } else
+            return 0;
+    }
+
+    public Map getMap(char[] chars) {
+        Map<Character, Integer> map = new HashMap();
+        for (int i = 0; i < chars.length; i++) {
+            Integer integer = map.get(chars[i]);
+            if (integer != null)
+                map.put(chars[i], integer + 1);
+            else
+                map.put(chars[i], 1);
+        }
+        return map;
+    }
+
+
+    public int matrixScore(int[][] A) {
+        for (int i = 0, leni = A.length; i < leni; i++) {
+            if (A[i][0] == 0) {
+                for (int j = 0, lenj = A[0].length; j < lenj; j++) {
+                    A[i][j] = A[i][j] == 0 ? 1 : 0;
+                }
+            }
+        }
+        return 0;
+    }
 }
