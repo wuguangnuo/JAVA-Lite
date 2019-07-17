@@ -1656,7 +1656,7 @@ public class LiteController {
         System.out.println(matrixScore(new int[][]{{0, 0, 1, 1}, {1, 0, 1, 0}, {1, 1, 0, 0}}));
     }
 
-    public int longestSubstring(String s, int k) {
+    public int longestSubstring2(String s, int k) {
         if (k < 2) return s.length();
         return sub(s, k);
     }
