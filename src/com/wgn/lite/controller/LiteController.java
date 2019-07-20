@@ -1741,4 +1741,19 @@ public class LiteController {
         // output
         return heap.poll();
     }
+
+    @Test
+    public void maxWidthRamp() {
+        int[] A = new int[]{1, 0};
+        int l = A.length, max = -1;
+        for (int i = 0; i < l - 1; i++) {
+            for (int j = l - 1; j > i; j--) {
+                if (A[j] > A[i]) {
+                    max = Math.max(max, (j - i));
+                    break;
+                }
+            }
+        }
+        System.out.println(max);
+    }
 }
